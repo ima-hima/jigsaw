@@ -24,13 +24,14 @@ def city():
     dumbo_zip = find_or_create(Zipcode(name='11210'), conn, cursor)[0]
     zips_list = ['11221', '11231', '11220', '11201', '11210']
     brooklyn_zips = [find_or_create(Zipcode(name=z), conn, cursor)[0] for z in zips_list]
-
     zipcodes = [find_or_create(CityZipcode(city_id=brooklyn.id, zip_id=z.id), conn, cursor)[0] for z in brooklyn_zips]
+   
     yield zipcodes # Yields `zipcodes` back, but will get name 'city' in calling function.
+   
     drop_all_tables(conn, cursor)
 
 def test_zipcodes(city):
-    codes = [z.name for z in city]
+    codes = [z.name for z in city.zipcodes]
     assert codes == ['10001', '10010']
 
 

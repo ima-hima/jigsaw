@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS merchants (
   beer_sales INT,
   wine_sales INT,
   cover_sales INT,
+  total_sales INT,
   CONSTRAINT fk_city_zip
       FOREIGN KEY(cz_id) 
       REFERENCES cities_zipcodes(id)

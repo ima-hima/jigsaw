@@ -23,3 +23,9 @@ class Client:
     def request_venue(self, venue_id):
         response = requests.get(f"{self.ROOT_URL}/venues/{venue_id}", self.auth_params())
         return response.json()['response']['venue']
+
+app token: rMwKYEFnRDB1SSa09M70WnIFD
+secret token: EDffyKKpTzyE_dpmq1NobdSlqE8KzWkbt1xV
+
+api key: 8opugbgtbt1p4fumq6gexa0jw
+api secret: 51qyv85zxe0wyl6ww26jotmm8l7kljt4mkprkh7pdqdypjc8ok
