@@ -1,2 +1,2 @@
-from api.src.models import City, Areacode, Zipcode, Merchant
-import api.src.db as db
+from backend.src.models import City, Areacode, Zipcode, Merchant
+import backend.src.db as db
