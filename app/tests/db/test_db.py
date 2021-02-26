@@ -3,6 +3,7 @@ import pytest
 import os
 
 from .context import backend
+from backend.src.db import conn, cursor, drop_records, drop_tables, drop_all_tables
 from backend.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
 
 os.environ['TESTING'] = 'True'
