@@ -1,6 +1,6 @@
 import pytest
-from api.src.models import City, Merchant, Zipcode, CityZipcode
-from api.src.orm import drop_all_tables, find_or_create
+from backend.src.models import City, Merchant, Zipcode, CityZipcode
+from backend.src.orm import drop_all_tables, find_or_create
 
 
 # @pytest.fixture()
