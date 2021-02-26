@@ -1,5 +1,5 @@
-import api.src.db
-import api.src.models as models
+import backend.src.orm as orm
+import backend.src.models as models
 
 class Zipcode(models.Table):
     __table__ = 'zipcodes'
@@ -20,7 +20,7 @@ class Zipcode(models.Table):
                     )
         cursor.execute(query_str, (self.id,))
         records = cursor.fetchall()
-        return db.build_from_records(models.City, records)
+        return orm.build_from_records(models.City, records)
 
     def merchants(self, cursor):
         """Return all merchants in this zip code."""
@@ -31,4 +31,4 @@ class Zipcode(models.Table):
                     )
         cursor.execute(query_str, (self.id,))
         records = cursor.fetchall()
-        return db.build_from_records(models.Merchant, records)
+        return orm.build_from_records(models.Merchant, records)

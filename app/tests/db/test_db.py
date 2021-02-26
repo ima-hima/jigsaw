@@ -1,46 +1,53 @@
 import psycopg2
 import pytest
+import os
 
 from .context import backend
-from backend.src.db import *
 from backend.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
 
-# TODO: build out this test suite: it doesn't have enough coverage.
+os.environ['TESTING'] = 'True'
 
+# TODO: build out this test suite: it doesn't have enough coverage.
 @pytest.fixture
 def set_up_tear_down_db():
-    drop_all_tables(conn, cursor)
+    drop_all_tables()
     yield
-    drop_all_tables(conn, cursor)
+    drop_all_tables()
 
-def test_find_or_create_unique(set_up_tear_down_db):
-    """Test whether unique condition will work for unique key on one column."""
-    record = find_or_create(Zipcode(name='90210'), conn, cursor)[0]
-    
-    # Zips are unique. We save same value, should return same id.
-    record2 = find_or_create(Zipcode(name='90210'), conn, cursor)[0]
-    assert record.id == record2.id
-    record = find_or_create(City(name='Brooklyn'), conn, cursor)[0]
-    
-    # City names are not unique. We save same value, should return different id.
-    record2 = find_or_create(City(name='Brooklyn'), conn, cursor)[0]
-    assert record.id == record2.id
+@pytest.fixture
+def insert_records():
+    drop_records('areacodes')
+    insert_str = 'INSERT INTO areacodes (name) VALUES (%s)'
+    for name in ['fir', 'sec', 'thi', 'fou']:
+        cursor.execute(insert_str, (name,))
+        conn.commit()
+    yield
 
-def test_multiple_not_unique(set_up_tear_down_db):
-    """Test whether unique condition will work for unique key on two columns."""
-    zipcode = find_or_create(Zipcode(name='90210'), conn, cursor)[0]
-    # Zips are unique. We save same value, should return same id.
-    zipcode2 = find_or_create(Zipcode(name='90210'), conn, cursor)[0]
-    assert zipcode.id == zipcode2.id
-    merchant = find_or_create(Merchant(name='Sammy\'s'), conn, cursor)[0]
-    # Merchant names are not unique. We save same value, should return different id.
-    merchant2 = find_or_create(Merchant(name='Sammy\'s'), conn, cursor)[0]
-    assert merchant.id != merchant2.id
+def test_connection():
+    assert conn.status == 1
+    # Now just make sure the cursor exists.
+    assert cursor
 
-def test_find_all(set_up_tear_down_db):
-    find_or_create(City(name='Brooklyn'), conn, cursor)[0]
-    find_or_create(City(name='LA'), conn, cursor)[0]
-    cities = find_all(City, cursor)
-    assert [city.name for city in cities] == ['Brooklyn', 'LA']
+    query_str = 'SELECT current_database()'
+    cursor.execute(query_str)
+    assert 'jigsaw_project_test' == cursor.fetchone()[0]
 
+def test_drop_records(insert_records):
+    """Drop all records from areacodes."""
+    query_str = 'SELECT * FROM areacodes'
+    cursor.execute(query_str)
+    assert cursor.fetchone() is not None
+    drop_records('areacodes')
+    query_str = 'SELECT * FROM areacodes'
+    cursor.execute(query_str)
+    assert cursor.fetchone() is None
 
+# def test_drop_tables(table_names, cursor, conn):
+#     """Drop tables in input list table_names."""
+#     for table_name in table_names:
+#         drop_records(table_name, cursor, conn)
+
+# def test_drop_all_tables():
+#     """Drop all tables in the database."""
+#     table_names = TABLES
+#     drop_tables(table_names, cursor, conn)

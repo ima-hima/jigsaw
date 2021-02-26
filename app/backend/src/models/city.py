@@ -1,5 +1,5 @@
-import api.src.db
-import api.src.models as models
+import backend.src.orm as orm
+import backend.src.models as models
 
 class City(models.Table):
     __table__ = 'cities'
@@ -21,7 +21,7 @@ class City(models.Table):
                     )
         cursor.execute(query_str, (self.id,))
         records = cursor.fetchall()
-        return db.build_from_records(models.Zipcode, records)
+        return orm.build_from_records(models.Zipcode, records)
 
     def merchants(self, cursor):
         """Return all merchants in this city."""
@@ -32,5 +32,5 @@ class City(models.Table):
                     )
         cursor.execute(query_str, (self.id,))
         records = cursor.fetchall()
-        return db.build_from_records(models.Merchant, records)
+        return orm.build_from_records(models.Merchant, records)
 

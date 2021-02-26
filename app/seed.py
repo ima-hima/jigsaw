@@ -1,6 +1,6 @@
 import psycopg2
 from api.src.models import Areacode, City, Merchant, Zipcode, CityZipcode
-import api.src.db as db
+import api.src.orm as orm
 
 
 db.drop_all_tables(db.conn, db.cursor)
