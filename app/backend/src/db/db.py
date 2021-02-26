@@ -41,12 +41,12 @@ def drop_records(table_name):
     cursor.execute(f"DELETE FROM {table_name};")
     conn.commit()
 
-def drop_tables(table_names, cursor, conn):
+def drop_tables(table_names):
     """Drop tables in input list table_names."""
     for table_name in table_names:
-        drop_records(table_name, cursor, conn)
+        drop_records(table_name)
 
 def drop_all_tables():
     """Drop all tables in the database."""
     table_names = TABLES
-    drop_tables(table_names, cursor, conn)
+    drop_tables(table_names)

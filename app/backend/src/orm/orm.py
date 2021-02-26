@@ -33,7 +33,7 @@ def build_from_records(This_class, records):
 def clear_db():
     pass
 
-def find_all(This_class, cursor):
+def find_all(This_class):
     sql_str = f"SELECT * FROM {This_class.__table__}"
     cursor.execute(sql_str)
     records = cursor.fetchall()
@@ -59,7 +59,7 @@ def find_by_name(This_class, name, cursor):
     record = cursor.fetchone()
     return build_from_record(This_class, record)
 
-def find_or_create(obj, conn, cursor):
+def find_or_create(obj):
     """
     Save values in input obj into DB. Return a *list* of *new* 
     objects of same type.

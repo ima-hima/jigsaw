@@ -1,9 +1,9 @@
 import psycopg2
 import pytest
 from decimal import *
-import api.src.db.db as db
-import api.src.models as models
-import api.src.adapters as adapters
+import backend.src.db.db as db
+import backend.src.models as models
+import backend.src.adapters as adapters
 # from tests.adapters.venue_details import imperfect_venue_details
 
 
@@ -17,7 +17,7 @@ def insert_data():
     zipcode = location.zipcode(test_cursor)
     city = zipcode.city(test_cursor)
     state = city.state(test_cursor)
-    
+
 def test_when_exists_finds_existing_venue_location_and_categories(test_conn):
     test_cursor = test_conn.cursor()
     builder = adapters.Builder()

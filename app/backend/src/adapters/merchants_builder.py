@@ -1,7 +1,7 @@
-import api.src.db as db
-import api.src.models as models
-import api.src.orm as orm
-import api.src.adapters as adapters
+import backend.src.db as db
+import backend.src.models as models
+import backend.src.orm as orm
+import backend.src.adapters as adapters
 import psycopg2
 
 
@@ -15,7 +15,7 @@ class MerchantBuilder:
     attributes = ['name', 'liquor_sales', 'beer_sales', 'wine_sales', 'cover_sales', 'total_sales', 'cz_id']
 
     def select_attributes(self, merchant_details, cityzip):
-        return dict(zip(self.attributes, 
+        return dict(zip(self.attributes,
                         [merchant_details['location_name'],
                          merchant_details['liquor_receipts'],
                          merchant_details['beer_receipts'],
@@ -38,7 +38,7 @@ class CityzipBuilder:
 
         zipcode = orm.find_or_create(models.Zipcode(name=zipcode_name), conn, cursor)[0]
         city = orm.find_or_create(models.City(name=city_name), conn, cursor)[0]
-        cityzip = orm.find_or_create(models.CityZipcode(city_id=city.id, zip_id=zipcode.id), 
-                                    conn, 
+        cityzip = orm.find_or_create(models.CityZipcode(city_id=city.id, zip_id=zipcode.id),
+                                    conn,
                                     cursor)[0]
         return cityzip
