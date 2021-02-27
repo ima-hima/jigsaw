@@ -1,7 +1,7 @@
 import psycopg2
 import os
 
-from backend.src.db import conn, cursor
+from backend.src.db import conn, cursor, retrieve_record, retrieve_records
 import backend.settings as settings
 
 TABLES = ['areacodes', 

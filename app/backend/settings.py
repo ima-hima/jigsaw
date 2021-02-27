@@ -10,8 +10,8 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_NAME = os.getenv("DB_NAME")
-# if TESTING:
-#     DB_NAME += '_test'
+if TEST:
+    DB_NAME += '_test'
 
 TEXAS_API_EMAIL = os.getenv('TEXAS_EMAIL')
 TEXAS_API_PASSWORD = os.getenv('TEXAS_PASSWORD')
