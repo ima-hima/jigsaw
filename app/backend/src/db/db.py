@@ -2,13 +2,14 @@ from flask import current_app, g
 import psycopg2
 import os
 from distutils.util import strtobool
-from settings import DB_NAME, DB_PASSWORD, DB_USER, DB_HOST
+# from context import settings
+import backend.settings as settings
 
 
-conn_string = (f'host={DB_HOST} '
-               f'dbname={DB_NAME} '
-               f'user={DB_USER} '
-               f'password={DB_PASS}'
+conn_string = (f'host={settings.DB_HOST} '
+               f'dbname={settings.DB_NAME} '
+               f'user={settings.DB_USER} '
+               f'password={settings.DB_PASSWORD}'
               )
 
 conn = psycopg2.connect(conn_string)

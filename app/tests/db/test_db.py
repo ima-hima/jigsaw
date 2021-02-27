@@ -3,8 +3,13 @@ import pytest
 import os
 
 from .context import backend
-from backend.src.db import conn, cursor, drop_records, drop_tables, drop_all_tables
+from backend.src.db import conn, cursor, drop_records, drop_tables, drop_all_tables, retrieve_record, retrieve_records
 from backend.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
+
+# drop_records
+# drop_tables
+# drop_all_tables
+
 
 os.environ['TESTING'] = 'True'
 
@@ -24,14 +29,14 @@ def insert_records():
         conn.commit()
     yield
 
-def test_connection():
-    assert conn.status == 1
-    # Now just make sure the cursor exists.
-    assert cursor
+# def test_connection():
+#     assert conn.status == 1
+#     # Now just make sure the cursor exists.
+#     assert cursor
 
-    query_str = 'SELECT current_database()'
-    cursor.execute(query_str)
-    assert 'jigsaw_project_test' == cursor.fetchone()[0]
+#     query_str = 'SELECT current_database()'
+#     cursor.execute(query_str)
+#     assert 'jigsaw_project_test' == cursor.fetchone()[0]
 
 def test_drop_records(insert_records):
     """Drop all records from areacodes."""
@@ -42,6 +47,12 @@ def test_drop_records(insert_records):
     query_str = 'SELECT * FROM areacodes'
     cursor.execute(query_str)
     assert cursor.fetchone() is None
+
+def test_retrieve_record():
+    pass
+
+def test_retrieve_records():
+    pass 
 
 # def test_drop_tables(table_names, cursor, conn):
 #     """Drop tables in input list table_names."""

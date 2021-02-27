@@ -2,6 +2,7 @@ import psycopg2
 import os
 
 from backend.src.db import conn, cursor
+import backend.settings as settings
 
 TABLES = ['areacodes', 
           'zipcodes', 
@@ -34,29 +35,23 @@ def clear_db():
     pass
 
 def find_all(This_class):
-    sql_str = f"SELECT * FROM {This_class.__table__}"
-    cursor.execute(sql_str)
-    records = cursor.fetchall()
+    records = retrieve_records(This_class.__table__)
     return [build_from_record(This_class, record) for record in records]
 
-def find_by_id(This_class, input_id, cursor):
+def find_by_id(This_class, input_id):
     """
     Retrieve record by id from DB, create and return obj of type This_class
     with values from that record.
     """
-    sql_str = f"SELECT * FROM {This_class.__table__} WHERE id = %s"
-    cursor.execute(sql_str, (input_id,))
-    record = cursor.fetchone()
+    record = retrieve_record(This_class.__table__, 'id', input_id)
     return build_from_record(This_class, record)
 
-def find_by_name(This_class, name, cursor):
+def find_by_name(This_class, name):
     """
     Retrieve record by name from DB, create and return obj of type This_class
     with values from that record.
     """
-    sql_str = f"SELECT * FROM {This_class.__table__} WHERE name = %s"
-    cursor.execute(sql_str, (name,))
-    record = cursor.fetchone()
+    record = retrieve_record(This_class.__table__, 'name', name)
     return build_from_record(This_class, record)
 
 def find_or_create(obj):
@@ -81,8 +76,8 @@ def find_or_create(obj):
         condition_str = condition_str[:-5]
         cursor.execute('ROLLBACK')
         cursor.execute('SELECT * FROM ' + obj.__table__ + condition_str, tuple(values(obj)))
-    records = cursor.fetchall()   # fetchall() and not fetchone() in case of 
-                                  # non-unique fields
+    records = cursor.fetchall() # fetchall() and not fetchone() in case of 
+                                # non-unique fields
     result = build_from_records(type(obj), records)
     return result
 
