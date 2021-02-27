@@ -10,10 +10,6 @@ from api.src.models import City, Merchant, Zipcode, CityZipcode
 from api.src.db import drop_all_tables, find_or_create, conn, cursor
 
 
-
-# TODO: import area codes
-# with 
-
 # import zips and cities
 with open('zipcodes.csv') as z:
     zipcodes = csv.DictReader(z, delimiter=',', quotechar='"')

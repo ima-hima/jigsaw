@@ -1,18 +1,19 @@
 from flask import current_app, g
 import psycopg2
 import os
-from dotenv import load_dotenv
 from distutils.util import strtobool
+from settings import DB_NAME, DB_PASSWORD, DB_USER, DB_HOST
 
-load_dotenv()
 
-db_name = os.environ.get('DB_NAME')
-if strtobool(os.environ.get('TESTING')):
-    db_name += '_test'
-db_user = os.environ.get('DB_USER')
-db_pw = os.environ.get('DB_PASS')
-# TODO: see line 26. Could/should do this in fixture instead, for eventual Flask testing.
-# ^^^ huh? line 26? ^^^
+conn_string = (f'host={DB_HOST} '
+               f'dbname={DB_NAME} '
+               f'user={DB_USER} '
+               f'password={DB_PASS}'
+              )
+
+conn = psycopg2.connect(conn_string)
+cursor = conn.cursor()
+
 
 TABLES = ['areacodes',
           'zipcodes',
@@ -22,8 +23,6 @@ TABLES = ['areacodes',
           'cities_zipcodes',
          ]
 
-conn = psycopg2.connect(database=db_name, user=db_user, password=db_pw)
-cursor = conn.cursor()
 
 def get_db(database_name=''):
     if "db" not in g:
@@ -50,3 +49,20 @@ def drop_all_tables():
     """Drop all tables in the database."""
     table_names = TABLES
     drop_tables(table_names)
+
+def retrieve_record(table_name, which_field, value):
+    """
+    Find and return all fields in table table_name for *single record*
+    where which_field = value.
+    """
+    sql_str = f"SELECT * FROM {table_name} WHERE {which_field} = %s"
+    cursor.execute(sql_str, (value,))
+    return cursor.fetchone()
+
+def retrieve_records(table_name):
+    """
+    Find and return all fields in table table_name.
+    """
+    sql_str = f"SELECT * FROM {table_name}"
+    cursor.execute(sql_str, tuple())
+    return cursor.fetchall()

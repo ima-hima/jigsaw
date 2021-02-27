@@ -8,7 +8,7 @@ from backend.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
 
 os.environ['TESTING'] = 'True'
 
-# TODO: build out this test suite: it doesn't have enough coverage.
+
 @pytest.fixture
 def set_up_tear_down_db():
     drop_all_tables()

@@ -22,7 +22,6 @@ if TESTING:
 db_user = os.environ.get('DB_USER')
 db_pw = os.environ.get('DB_PASS')
 
-# TODO: What information should I "surface" on, say, city?
 
 def create_app(database='jigsaw_project_test', testing = TESTING, debug = DEBUGGING):
     """Create and configure an instance of the Flask application."""
