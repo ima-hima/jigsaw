@@ -1,7 +1,7 @@
 import psycopg2
 import os
 
-from backend.src.db import conn, cursor, retrieve_record, retrieve_records
+from backend.src.db import drop_all_tables, insert_records, retrieve_record, retrieve_records
 import backend.settings as settings
 
 TABLES = ['areacodes', 
@@ -32,9 +32,10 @@ def build_from_records(This_class, records):
     return [build_from_record(This_class, record) for record in records]
 
 def clear_db():
-    pass
+    drop_all_tables()
 
 def find_all(This_class):
+    """Get all records for This_class and return This_class objects."""
     records = retrieve_records(This_class.__table__)
     return [build_from_record(This_class, record) for record in records]
 
@@ -59,25 +60,8 @@ def find_or_create(obj):
     Save values in input obj into DB. Return a *list* of *new* 
     objects of same type.
     """
-    values_str = ', '.join(len(values(obj)) * ['%s'])
-    keys_str = ', '.join(keys(obj))
-    insert_str = f'INSERT INTO {obj.__table__} ({keys_str}) VALUES ({values_str});'
-    try:
-        cursor.execute(insert_str, list(values(obj)))
-        conn.commit()
-        cursor.execute(f'SELECT * FROM {obj.__table__} ORDER BY id DESC LIMIT 1')
-    except Exception as e: # Need to have exception for unique fields. 
-                           # Must do SELECT after insertion. 
-                           # Doing SELECT first would return values already 
-                           # inserted for non-unique fields.
-        condition_str = ' WHERE '
-        for k in keys(obj):
-            condition_str += k + ' = %s AND '
-        condition_str = condition_str[:-5]
-        cursor.execute('ROLLBACK')
-        cursor.execute('SELECT * FROM ' + obj.__table__ + condition_str, tuple(values(obj)))
-    records = cursor.fetchall() # fetchall() and not fetchone() in case of 
-                                # non-unique fields
+    records = insert_records(obj.__table__, values(obj), keys(obj))
+
     result = build_from_records(type(obj), records)
     return result
 
