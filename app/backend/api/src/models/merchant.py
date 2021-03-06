@@ -1,5 +1,5 @@
-import backend.src.orm as orm
-import backend.src.models as models
+import api.src.orm as orm
+import api.src.models as models
 
 class Merchant(models.Table):
     __table__ = 'merchants'

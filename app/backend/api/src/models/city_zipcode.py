@@ -1,4 +1,4 @@
-import backend.src.models as models
+import api.src.models as models
 
 class CityZipcode(models.Table):
     __table__ = 'cities_zipcodes'

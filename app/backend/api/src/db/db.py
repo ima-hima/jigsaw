@@ -2,8 +2,8 @@ from flask import current_app, g
 import psycopg2
 import os
 from distutils.util import strtobool
-# from context import settings
-import backend.settings as settings
+from .context import api, settings
+import settings as settings
 
 
 conn_string = (f'host={settings.DB_HOST} '

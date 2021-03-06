@@ -2,9 +2,9 @@ import psycopg2
 import pytest
 import os
 
-from .context import backend
-from backend.src.db import conn, cursor, drop_records, drop_tables, drop_all_tables, retrieve_record, retrieve_records
-from backend.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
+from .context import api
+from api.src.db import conn, cursor, drop_records, drop_tables, drop_all_tables, retrieve_record, retrieve_records
+from api.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
 
 # drop_records
 # drop_tables

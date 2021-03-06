@@ -1,8 +1,11 @@
 import psycopg2
 import os
 
-from backend.src.db import drop_all_tables, insert_records, retrieve_record, retrieve_records
-import backend.settings as settings
+from distutils.util import strtobool
+from .context import api, settings
+import settings as settings
+from api.src.db import drop_all_tables, insert_records, retrieve_record, retrieve_records
+
 
 TABLES = ['areacodes', 
           'zipcodes', 

@@ -3,9 +3,9 @@ from flask import Flask, request
 import simplejson as json
 import os
 
-from backend.src.models import Areacode, City, CityZipcode, Merchant, Table, Zipcode
-from backend.src.orm import find_all, find_by_id
-import backend.settings as settings
+from api.src.models import Areacode, City, CityZipcode, Merchant, Table, Zipcode
+from api.src.orm import find_all, find_by_id
+import settings as settings
 # from .adaptors import *
 
 
@@ -20,7 +20,7 @@ def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = 
 
     @app.route('/')
     def root_url():
-        return 'Welcome to my api'
+        return 'Welcome to my api.'
 
     @app.route('/cities')
     def cities():
