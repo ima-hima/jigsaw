@@ -63,3 +63,29 @@ def test_retrieve_records():
 #     """Drop all tables in the database."""
 #     table_names = TABLES
 #     drop_tables(table_names, cursor, conn)
+
+
+
+
+def insert_records(table_name, values, keys):
+    placehoders = ', '.join(len(values) * ['%s'])
+    keys_str = ', '.join(keys)
+    insert_str = f'INSERT INTO {table_name} ({keys_str}) VALUES ({placehoders});'
+    try:
+        cursor.execute(insert_str, list(values))
+        conn.commit()
+        cursor.execute(f'SELECT * FROM {table_name} ORDER BY id DESC LIMIT 1')
+    except Exception as e: # Need to have exception for unique fields. 
+                           # Must do SELECT after insertion. 
+                           # Doing SELECT first would return values already 
+                           # inserted for non-unique fields.
+        condition_str = ' WHERE '
+        for k in keys:
+            condition_str += k + ' = %s AND '
+        condition_str = condition_str[:-5]
+        cursor.execute('ROLLBACK')
+        cursor.execute(f'SELECT * FROM {table_name} {condition_str}', tuple(values))
+    records = cursor.fetchall() # fetchall() and not fetchone() in case of 
+                                # non-unique fields
+    return records
+
