@@ -3,7 +3,7 @@ from flask import Flask, request
 import simplejson as json
 import os
 
-from api.src.models import Areacode, City, CityZipcode, Merchant, Table, Zipcode
+from api.src.models import Areacode, City, CityZipcode, Merchant, Receipt, Table, Zipcode
 from api.src.orm import find_all, find_by_id
 import settings as settings
 # from .adaptors import *

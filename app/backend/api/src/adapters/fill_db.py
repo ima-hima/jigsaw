@@ -1,6 +1,6 @@
 import psycopg2
 import pytest
-from decimal import *
+from decimal import Decimal
 import backend.src.db.db as db
 import backend.src.models as models
 import backend.src.adapters as adapters

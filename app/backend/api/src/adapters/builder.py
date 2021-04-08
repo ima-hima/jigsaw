@@ -5,17 +5,17 @@ import backend.src.adapters as adapters
 import psycopg2
 
 
-
 class Builder:
     def run(self, merchant_details):
         cityzip = CityzipBuilder().run(merchant_details)
         merchant = MerchantBuilder().run(merchant_details, cityzip)
         return ReceiptBuilder().run(merchant_details, merchant)
 
+
 class MerchantBuilder:
-    attributes = ['name', 
-                  'address', 
-                  'permit_number', 
+    attributes = ['name',
+                  'address',
+                  'permit_number',
                   'cz_id',
                   'latitude',
                   'longitude',
@@ -30,21 +30,20 @@ class MerchantBuilder:
                          cityzip.id,
                          latitude,
                          longitude,
-                         ]
-                       )
-                    )
+                         ]))
 
     def run(self, merchant_details, cityzip):
         selected = self.select_attributes(merchant_details, cityzip)
         return orm.find_or_create(models.Merchant(**selected))[0]
 
+
 class ReceiptBuilder:
     attributes = ['reporting_end_date',
-                  'liquor_sales', 
-                  'beer_sales', 
-                  'wine_sales', 
-                  'cover_sales', 
-                  'total_sales', 
+                  'liquor_sales',
+                  'beer_sales',
+                  'wine_sales',
+                  'cover_sales',
+                  'total_sales',
                   ]
 
     def select_attributes(self, merchant_details, merchant):
@@ -56,13 +55,12 @@ class ReceiptBuilder:
                          merchant_details['cover_charge_receipts'],
                          merchant_details['total_receipts'],
                          merchant.id,
-                         ]
-                       )
-                    )
+                         ]))
 
     def run(self, receipt_details, merchant):
         selected = self.select_attributes(receipt_details, cityzip)
         return orm.find_or_create(models.Receipt(**selected))[0]
+
 
 class CityzipBuilder:
     def run(self, merchant_details):
@@ -71,12 +69,11 @@ class CityzipBuilder:
 
         zipcode = orm.find_or_create(models.Zipcode(name=zipcode_name))[0]
         city = orm.find_or_create(models.City(name=city_name))[0]
-        cityzip = orm.find_or_create(models.CityZipcode(city_id=city.id, zip_id=zipcode.id),
-                                     conn,
-                                     cursor)[0]
+        cityzip = orm.find_or_create(models.CityZipcode(city_id=city.id,
+                                                        zip_id=zipcode.id))[0]
         return cityzip
+
 
 class LatLongBuilder:
     def run(self, merchant_details):
-
-
+        pass

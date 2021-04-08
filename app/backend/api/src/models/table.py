@@ -9,4 +9,4 @@ class Table:
         for key in kwargs.keys():
             if key not in cls.columns:
                 raise f'{key} not in {cls.columns}'
-            setattr(cls, key, kwargs[value])
+            setattr(cls, key, kwargs[key])
