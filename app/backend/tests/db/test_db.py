@@ -1,9 +1,9 @@
-import psycopg2
 import pytest
 import os
 
 from .context import api
-from api.src.db import conn, cursor, drop_records, drop_tables, drop_all_tables, retrieve_record, retrieve_records
+from api.src.db import conn, cursor, drop_records, drop_tables, \
+                       drop_all_tables, retrieve_record, retrieve_records
 from api.src.models import Areacode, City, CityZipcode, Merchant, Zipcode
 
 # drop_records
@@ -21,7 +21,7 @@ def set_up_tear_down_db():
     drop_all_tables()
 
 @pytest.fixture
-def insert_records():
+def insert_false_records():
     drop_records('areacodes')
     insert_str = 'INSERT INTO areacodes (name) VALUES (%s)'
     for name in ['fir', 'sec', 'thi', 'fou']:
@@ -38,7 +38,8 @@ def insert_records():
 #     cursor.execute(query_str)
 #     assert 'jigsaw_project_test' == cursor.fetchone()[0]
 
-def test_drop_records(insert_records):
+
+def test_drop_records(insert_false_records):
     """Drop all records from areacodes."""
     query_str = 'SELECT * FROM areacodes'
     cursor.execute(query_str)
@@ -48,11 +49,13 @@ def test_drop_records(insert_records):
     cursor.execute(query_str)
     assert cursor.fetchone() is None
 
+
 def test_retrieve_record():
     pass
 
+
 def test_retrieve_records():
-    pass 
+    pass
 
 # def test_drop_tables(table_names, cursor, conn):
 #     """Drop tables in input list table_names."""
@@ -65,8 +68,6 @@ def test_retrieve_records():
 #     drop_tables(table_names, cursor, conn)
 
 
-
-
 def insert_records(table_name, values, keys):
     placehoders = ', '.join(len(values) * ['%s'])
     keys_str = ', '.join(keys)
@@ -75,9 +76,9 @@ def insert_records(table_name, values, keys):
         cursor.execute(insert_str, list(values))
         conn.commit()
         cursor.execute(f'SELECT * FROM {table_name} ORDER BY id DESC LIMIT 1')
-    except Exception as e: # Need to have exception for unique fields. 
-                           # Must do SELECT after insertion. 
-                           # Doing SELECT first would return values already 
+    except Exception as e: # Need to have exception for unique fields.
+                           # Must do SELECT after insertion.
+                           # Doing SELECT first would return values already
                            # inserted for non-unique fields.
         condition_str = ' WHERE '
         for k in keys:
@@ -85,7 +86,7 @@ def insert_records(table_name, values, keys):
         condition_str = condition_str[:-5]
         cursor.execute('ROLLBACK')
         cursor.execute(f'SELECT * FROM {table_name} {condition_str}', tuple(values))
-    records = cursor.fetchall() # fetchall() and not fetchone() in case of 
+    records = cursor.fetchall() # fetchall() and not fetchone() in case of
                                 # non-unique fields
     return records
 

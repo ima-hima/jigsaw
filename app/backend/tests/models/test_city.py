@@ -1,7 +1,7 @@
 import pytest
 
 from .context import api
-from api.src.models import City, Merchant, Zipcode, CityZipcode
+from api.src.models import City, Zipcode, CityZipcode
 from api.src.db import drop_all_tables
 from api.src.orm import find_or_create
 
@@ -12,6 +12,7 @@ def set_up_tear_down_db():
     drop_all_tables()
     yield
     drop_all_tables()
+
 
 def test_city(set_up_tear_down_db):
     brooklyn = find_or_create(City(name='Brooklyn'))[0]

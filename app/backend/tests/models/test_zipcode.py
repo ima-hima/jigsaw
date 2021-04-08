@@ -1,5 +1,4 @@
 import pytest
-import psycopg2
 
 from .context import api
 from api.src.models import City, CityZipcode, Merchant, Zipcode
@@ -30,6 +29,7 @@ def city():
     yield zipcodes # Yields `zipcodes` back, but will get name 'city' in calling function.
     drop_all_tables()
 
+
 def test_zipcodes(city):
     pass
     # codes = [z.name for z in city]
@@ -38,4 +38,3 @@ def test_zipcodes(city):
 
 def test_city(city):
     city = City()
-

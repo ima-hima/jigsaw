@@ -1,5 +1,4 @@
 import pytest
-import psycopg2
 
 from .context import api
 from api.src.models import City, CityZipcode, Merchant, Zipcode
@@ -26,6 +25,7 @@ def city():
         find_or_create(CityZipcode(city_id=brooklyn.id, zip_id=zipcode.id))[0]
     yield city
     drop_all_tables()
+
 
 def test_city_multiple_zipcodes(city):
     pass
