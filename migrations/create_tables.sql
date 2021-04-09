@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS zipcodes (
   id SERIAL PRIMARY KEY, -- Shouldn't need this, but forced to by
                          -- save() in db.py.
   name VARCHAR(5) UNIQUE, -- Forced to use VARCHAR by find_by_name() in db.py
-  -- more to go here later, maybe
+  -- More to go here later, maybe, like population by male/female.
   population INT
 );
 
@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS cities_zipcodes (
       REFERENCES zipcodes(id)
       ON DELETE CASCADE
 );
+
 -- Should name actually be unique? Made it unique to agree with cities
 -- and zipcodes, and so find_by_name() will work in a consistent manner.
 CREATE TABLE IF NOT EXISTS merchants (

@@ -94,6 +94,12 @@ def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = 
         merchant_dicts = [merchant.__dict__ for merchant in merchants]
         return json.dumps(merchant_dicts, default=str)
 
+    @app.route('/zipcodes/<zip_id>')
+    def zipcode(zip_id):
+        """ For a zip with id zip_id, return all merchants in that zipcode."""
+        zipcode = orm.find_by_id(models.Zipcode, zip_id)
+        return json.dumps(zipcode.__dict__, default=str)
+
     @app.route('/merchants')
     def merchants():
         """Return all merchants in DB."""
