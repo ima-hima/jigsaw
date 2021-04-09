@@ -1,3 +1,2 @@
-from api.src.models import City, Areacode, Zipcode, Merchant
+from api.src.models import City, Zipcode, Merchant
 import api.src.db as db
-# import .settings

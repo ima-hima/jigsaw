@@ -22,10 +22,9 @@ class Receipt(models.Table):
 
     def merchant(self, cursor):
         """Return the merchant for this receipt."""
-        query_str = ('SELECT c.* '
-                       'FROM cities c '
-                       'JOIN cities_zipcodes cz ON cz.city_id = c.id '
-                      'WHERE cz.id = %s;'
+        query_str = ('SELECT m.* '
+                       'FROM merchants m '
+                      'WHERE m.id = %s;'
                      )
         cursor.execute(query_str, (self.cz_id,))
         record = cursor.fetchone()
