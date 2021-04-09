@@ -13,8 +13,9 @@ CREATE TABLE IF NOT EXISTS cities (
 CREATE TABLE IF NOT EXISTS zipcodes (
   id SERIAL PRIMARY KEY, -- Shouldn't need this, but forced to by
                          -- save() in db.py.
-  name VARCHAR(5) UNIQUE -- Forced to use VARCHAR by find_by_name() in db.py
+  name VARCHAR(5) UNIQUE, -- Forced to use VARCHAR by find_by_name() in db.py
   -- more to go here later, maybe
+  population INT
 );
 
 CREATE TABLE IF NOT EXISTS cities_zipcodes (
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS cities_zipcodes (
 -- Should name actually be unique? Made it unique to agree with cities
 -- and zipcodes, and so find_by_name() will work in a consistent manner.
 CREATE TABLE IF NOT EXISTS merchants (
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   cz_id INT,
   taxpayer_number INT,
@@ -47,7 +49,7 @@ CREATE TABLE IF NOT EXISTS merchants (
       REFERENCES cities_zipcodes(id)
       ON DELETE CASCADE
   CONSTRAINT pk_location_id
-      PRIMARY KEY (taxpayer_number, location_number)
+      UNIQUE (taxpayer_number, location_number)
 );
 
 CREATE TABLE IF NOT EXISTS receipts (
