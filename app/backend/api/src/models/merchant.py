@@ -9,11 +9,6 @@ class Merchant(models.Table):
                'cz_id',
                'taxpayer_id',
                'location',
-               'liquor_sales',
-               'beer_sales',
-               'wine_sales',
-               'cover_sales',
-               'total_sales',
                ]
 
     def __init__(self, **kwargs):

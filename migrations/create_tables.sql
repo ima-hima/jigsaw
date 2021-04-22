@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS zipcodes (
                          -- save() in db.py.
   name VARCHAR(5) UNIQUE, -- Forced to use VARCHAR by find_by_name() in db.py
   -- More to go here later, maybe, like population by male/female.
-  population INT
+  population INT,
+  average_AGI INT
 );
 
 CREATE TABLE IF NOT EXISTS cities_zipcodes (
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS merchants (
   location_number INT,
   permit_number VARCHAR(16),
   address VARCHAR(256),
-  latitudue FLOAT,
+  latitude FLOAT,
   longitude FLOAT,
   CONSTRAINT fk_city_zip
       FOREIGN KEY (cz_id)

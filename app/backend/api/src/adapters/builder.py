@@ -19,6 +19,8 @@ class MerchantBuilder:
                   'cz_id',
                   'latitude',
                   'longitude',
+                  'taxpayer_id',
+                  'location',
                   ]
 
     def select_attributes(self, merchant_details, cityzip):
@@ -27,6 +29,8 @@ class MerchantBuilder:
                         [merchant_details['location_name'],
                          merchant_details['location_address'],
                          merchant_details['tabc_permit_number'],
+                         merchant_details['taxpayer_id'],
+                         merchant_details['location'],
                          cityzip.id,
                          latitude,
                          longitude,

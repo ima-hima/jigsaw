@@ -1,5 +1,6 @@
 dotenv
 flask
+folium
 pytest
 psycopg2-binary
 simplejson

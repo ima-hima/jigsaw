@@ -59,7 +59,6 @@ def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = 
         zipcodes in that city.
         """
         zipcodes = orm.find_by_id(City, city_id).zipcodes()
-        print(zipcodes)
         zipcode_names = [zipcode.__dict__ for zipcode in zipcodes]
         return json.dumps(zipcode_names, default = str)
 
