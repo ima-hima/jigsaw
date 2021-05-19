@@ -17,7 +17,7 @@ class Receipt(models.Table):
     def __init__(self, **kwargs):
         for key in kwargs.keys():
             if key not in self.columns:
-                raise f'{key} not in {self.columns}'
+                raise Exception(f'{key} not in {self.columns}')
             setattr(self, key, kwargs[key])
 
     def merchant(self, cursor):
