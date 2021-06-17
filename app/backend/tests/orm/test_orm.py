@@ -1,7 +1,8 @@
 import pytest
 from decimal import *
+import os
 
-from .context import api
+# from .context import api
 from api.src.models import City, Merchant, Zipcode
 from api.src.db import drop_all_tables
 from api.src.orm import clear_db, find_all, find_or_create

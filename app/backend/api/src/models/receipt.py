@@ -1,4 +1,3 @@
-import api.src.orm as orm
 import api.src.models as models
 
 

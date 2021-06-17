@@ -3,7 +3,8 @@ from flask import Flask, request
 import simplejson as json
 import os
 
-from api.src.models import Areacode, City, CityZipcode, Merchant, Receipt, Table, Zipcode
+from api.src.models import (Areacode, City, CityZipcode, Merchant,
+                            Receipt, Table, Zipcode)
 from api.src.orm import find_all, find_by_id
 import settings as settings
 # from .adaptors import *
@@ -13,10 +14,14 @@ TESTING = settings.TEST
 DEBUGGING = settings.DEBUG
 
 
-def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = settings.DEBUG):
+def create_app(database='jigsaw_project_test',
+               testing=settings.TEST,
+               debug=settings.DEBUG):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
-    app.config.from_mapping(DATABASE = database, DEBUG = settings.DEBUG, TESTING = settings.TEST)
+    app.config.from_mapping(DATABASE=database,
+                            DEBUG=settings.DEBUG,
+                            TESTING=settings.TEST)
 
     @app.route('/')
     def root_url():
@@ -37,17 +42,14 @@ def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = 
 
     @app.route('/cities/merchants/<city_id>')
     def merchants_for_city(city_id):
-        """For a city with name city_id, return all merchants in that city."""
+        """Return all merchants in city city_id."""
         merchants = orm.find_by_id(City, city_id).merchants()
         merchant_dicts = [merchant.__dict__ for merchant in merchants]
         return json.dumps(merchant_dicts, default=str)
 
     @app.route('/cities/zipcodes/<city_id>')
     def zips_for_city(city_id):
-        """
-        For a city given by city_id, return complete record for all
-        zipcodes in that city.
-        """
+        """Return complete record for all zipcodes in city city_id."""
         zipcodes = orm.find_by_id(City, city_id).zipcodes()
         zipcode_names = [zipcode.__dict__ for zipcode in zipcodes]
         return json.dumps(zipcode_names, default = str)
@@ -61,14 +63,14 @@ def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = 
 
     @app.route('/zipcodes/merchants/<zip_id>')
     def merchants_for_zip(zip_id):
-        """For a zip with id == zip_id, return all cities in that zipcode."""
+        """Return all cities in zipcode zip_id."""
         merchants = orm.find_by_id(Zipcode, zip_id).merchants()
         merchant_dicts = [merchant.__dict__ for merchant in merchants]
         return json.dumps(merchant_dicts, default=str)
 
     @app.route('/zipcodes/<zip_id>')
     def zipcode(zip_id):
-        """For a zip with id zip_id, return all merchants in that zipcode."""
+        """Return all merchants in zipcode zip_id."""
         zipcode = orm.find_by_id(models.Zipcode, zip_id)
         return json.dumps(zipcode.__dict__, default=str)
 
@@ -81,7 +83,7 @@ def create_app(database='jigsaw_project_test', testing = settings.TEST, debug = 
 
     @app.route('/merchants/<merchant_id>')
     def merchant(merchant_id):
-        """Return complete record for merchant with id == merchant_id."""
+        """Return complete record for merchant merchant_id."""
         merchant = orm.find_by_id(models.City, merchant_id)
         return json.dumps(merchant.__dict__, default=str)
 

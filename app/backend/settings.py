@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DEBUG = True
-TEST = True
+TEST = False
 
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_NAME = os.getenv("DB_NAME")
-if TEST:
+if TEST or os.environ['TESTING'] == 'True':
     DB_NAME += '_test'
 
 TEXAS_API_EMAIL = os.getenv('TEXAS_EMAIL')
