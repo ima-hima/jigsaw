@@ -1,6 +1,6 @@
 import pytest
 
-from .context import api
+# from .context import api
 from api.src.models import City, Merchant, Receipt
 from api.src.db import drop_all_tables
 from api.src.orm import find_or_create

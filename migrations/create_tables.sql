@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS merchants (
   CONSTRAINT fk_city_zip
       FOREIGN KEY (cz_id)
       REFERENCES cities_zipcodes(id)
-      ON DELETE CASCADE
+      ON DELETE CASCADE,
   CONSTRAINT pk_location_id
       UNIQUE (taxpayer_number, location_number)
 );
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS merchants (
 CREATE TABLE IF NOT EXISTS receipts (
   id SERIAL PRIMARY KEY,
   merchant_id INT,
-  reporting_end_date datetime,
+  reporting_end_date timestamp,
   liquor_sales INT,
   beer_sales INT,
   wine_sales INT,
@@ -65,6 +65,6 @@ CREATE TABLE IF NOT EXISTS receipts (
   total_sales INT,
   CONSTRAINT fk_merchant
       FOREIGN KEY (merchant_id)
-      REFERENCES merchants(pk_location_id)
+      REFERENCES merchants(id)
       ON DELETE CASCADE
 );
